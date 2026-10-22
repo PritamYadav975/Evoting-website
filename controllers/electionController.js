@@ -65,7 +65,7 @@ const createElection = async (req, res) => {
 
             const symbolImage =
                 partySymbols[i]
-                    ? partySymbols[i].filename
+                    ? partySymbols[i].path
                     : null;
 
             const isIndependent =
@@ -145,7 +145,7 @@ const createElection = async (req, res) => {
 
             const image =
                 candidateImages[i]
-                    ? candidateImages[i].filename
+                    ? candidateImages[i].path
                     : null;
 
 

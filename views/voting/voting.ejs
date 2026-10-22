@@ -35,7 +35,7 @@
                     <% if (candidate.image) { %>
 
                         <img
-                            src="/uploads/candidates/<%= candidate.image %>"
+                            src="<%= candidate.image %>"
                             alt="<%= candidate.name %>"
                         >
 
@@ -51,15 +51,17 @@
                     </h2>
 
 
-                    <% if (candidate.symbol_image) { %>
 
-                        <img
-                            class="party-symbol"
-                            src="/uploads/symbols/<%= candidate.symbol_image %>"
-                            alt="Party Symbol"
-                        >
+            <% if (candidate.symbol_image) { %>
 
-                    <% } %>
+                <img
+                 class="party-symbol"
+                 src="<%= candidate.symbol_image %>"
+                 alt="Party Symbol"
+               >
+
+            <% } %>
+
 
 
                     <p class="party-name">
