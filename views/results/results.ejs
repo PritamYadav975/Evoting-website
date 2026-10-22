@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Election Results</title>
+
+    <link rel="stylesheet" href="/css/results.css">
+</head>
+
+<body>
+
+    <header class="results-header">
+
+        <div class="results-header-top">
+            <div class="results-header-text">
+                <p class="organization-name"><%= election.organization_name %></p>
+                <h2><%= election.name %></h2>
+                
+            </div>
+
+            <a
+                href="/results/<%= election.id %>/download"
+                class="download-results-button"
+            >
+                DOWNLOAD RESULT SHEET
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main class="results-container">
+
+        <% if (isTie) { %>
+
+            <div class="tie-message">
+
+                <h2>Election Result: Tie</h2>
+
+                <p>
+                    Two or more candidates have received
+                    the same highest number of votes.
+                </p>
+
+            </div>
+
+
+            <h2 class="section-title">
+                Candidates with Highest Votes
+            </h2>
+
+
+            <div class="winners-container">
+
+                <% winners.forEach(winner => { %>
+
+                    <div class="winner-card">
+
+                        <% if (winner.image) { %>
+
+                            <img
+                                class="winner-photo"
+                                src="/uploads/candidates/<%= winner.image %>"
+                                alt="<%= winner.name %>"
+                            >
+
+                        <% } %>
+
+
+                        <h2><%= winner.name %></h2>
+
+                        <% if (winner.symbol_image) { %>
+
+                            <img
+                                class="winner-symbol"
+                                src="/uploads/symbols/<%= winner.symbol_image %>"
+                                alt="Party Symbol"
+                            >
+
+                        <% } %>
+
+
+                        <p>
+                            <strong>Party:</strong>
+                            <%= winner.party_name || "Independent" %>
+                        </p>
+
+
+                        <p class="winner-votes">
+
+                            <strong>
+                                <%= winner.vote_count %>
+                            </strong>
+
+                            Votes
+
+                        </p>
+
+                    </div>
+
+                <% }) %>
+
+            </div>
+
+
+        <% } else if (winners.length === 1) { %>
+
+
+            <div class="winner-section">
+
+                <h2>🏆 Winner</h2>
+
+
+                <div class="winner-card">
+
+                    <% if (winners[0].image) { %>
+
+                        <img
+                            class="winner-photo"
+                            src="/uploads/candidates/<%= winners[0].image %>"
+                            alt="<%= winners[0].name %>"
+                        >
+
+                    <% } %>
+
+
+                    <h2>
+                        <%= winners[0].name %>
+                    </h2>
+
+
+                    <% if (winners[0].symbol_image) { %>
+
+                        <img
+                            class="winner-symbol"
+                            src="/uploads/symbols/<%= winners[0].symbol_image %>"
+                            alt="Party Symbol"
+                        >
+
+                    <% } %>
+
+
+                    <p>
+
+                        <strong>Party:</strong>
+
+                        <%= winners[0].party_name || "Independent" %>
+
+                    </p>
+
+
+                    <p class="winner-votes">
+
+                        <strong>
+                            <%= winners[0].vote_count %>
+                        </strong>
+
+                        Votes
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        <% } %>
+
+
+        <h2 class="section-title">
+            All Candidate Results
+        </h2>
+
+
+        <div class="all-results">
+
+            <% candidates.forEach(candidate => { %>
+
+                <div class="candidate-result">
+
+                    <% if (candidate.image) { %>
+
+                        <img
+                            class="candidate-photo"
+                            src="/uploads/candidates/<%= candidate.image %>"
+                            alt="<%= candidate.name %>"
+                        >
+
+                    <% } %>
+
+
+                    <div class="candidate-details">
+
+                        <h3>
+                            <%= candidate.name %>
+                        </h3>
+
+
+                        <p>
+
+                            <strong>Party:</strong>
+
+                            <%= candidate.party_name || "Independent" %>
+
+                        </p>
+
+
+                        <% if (candidate.flag_image) { %>
+
+                            <img
+                                class="party-flag"
+                                src="/uploads/parties/<%= candidate.flag_image %>"
+                                alt="Party Flag"
+                            >
+
+                        <% } %>
+
+
+                        <% if (candidate.symbol_image) { %>
+
+                            <img
+                                class="party-symbol"
+                                src="/uploads/symbols/<%= candidate.symbol_image %>"
+                                alt="Party Symbol"
+                            >
+
+                        <% } %>
+
+                    </div>
+
+
+                    <div class="candidate-votes">
+
+                        <strong>
+                            <%= candidate.vote_count %>
+                        </strong>
+
+                        <span>Votes</span>
+
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+        </div>
+
+
+    </main>
+
+</body>
+
+</html>

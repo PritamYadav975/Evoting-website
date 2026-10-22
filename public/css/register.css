@@ -1,0 +1,35 @@
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #eef6ff, #f8faff 55%, #fff);
+}
+
+.registration-page {
+    display: grid;
+    min-height: 100vh;
+    max-width: 560px;
+    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.registration-card {
+    border-radius: 1rem;
+}
+
+.registration-eyebrow {
+    color: #315cce;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.registration-card .form-label {
+    color: #34445c;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.registration-card .form-control {
+    min-height: 2.5rem;
+}

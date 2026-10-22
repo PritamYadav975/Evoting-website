@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Voting</title>
+
+    <link rel="stylesheet" href="/css/voting.css">
+</head>
+
+<body>
+
+    <!-- <header class="voting-header">
+
+        <h1><%= election.name %></h1>
+
+        <p>
+            <%= election.category %>
+        </p>
+
+    </header>
+ -->
+
+    <main class="voting-container">
+
+        <% candidates.forEach(candidate => { %>
+
+            <div class="candidate-card">
+
+                <div class="candidate-photo">
+
+                    <% if (candidate.image) { %>
+
+                        <img
+                            src="/uploads/candidates/<%= candidate.image %>"
+                            alt="<%= candidate.name %>"
+                        >
+
+                    <% } %>
+
+                </div>
+
+
+                <div class="candidate-info">
+
+                    <h2>
+                        <%= candidate.name %>
+                    </h2>
+
+
+                    <% if (candidate.symbol_image) { %>
+
+                        <img
+                            class="party-symbol"
+                            src="/uploads/symbols/<%= candidate.symbol_image %>"
+                            alt="Party Symbol"
+                        >
+
+                    <% } %>
+
+
+                    <p class="party-name">
+
+                        <%= candidate.party_name || "Independent" %>
+
+                    </p>
+
+
+                    <p>
+                        <strong>Position:</strong>
+                        <%= candidate.position %>
+                    </p>
+                </div>
+
+
+                <button
+                    class="vote-button"
+                    type="button"
+                    data-candidate-id="<%= candidate.id %>"
+                >
+                    VOTE
+                </button>
+
+            </div>
+
+        <% }) %>
+
+    </main>
+
+
+    <button
+    class="fullscreen-button"
+    type="button"
+    id="fullscreenButton"
+>
+    ⛶ FULL SCREEN
+</button>
+
+<button
+    class="results-button"
+    type="button"
+>
+    RESULTS
+</button>
+
+<script>
+    const fullscreenButton =
+        document.getElementById("fullscreenButton");
+
+    fullscreenButton.addEventListener("click", async () => {
+
+        await document.documentElement.requestFullscreen();
+
+        fullscreenButton.style.display = "none";
+    });
+
+    document.addEventListener("fullscreenchange", () => {
+
+        if (!document.fullscreenElement) {
+            fullscreenButton.style.display = "block";
+        }
+
+    });
+    document.addEventListener("keydown", (event) => {
+
+    if (
+        event.ctrlKey &&
+        event.shiftKey &&
+        event.key.toLowerCase() === "f"
+    ) {
+
+        event.preventDefault();
+
+        const resultsButton =
+            document.querySelector(".results-button");
+
+        resultsButton.style.display = "block";
+    }
+
+});
+const voteButtons =
+    document.querySelectorAll(".vote-button");
+
+voteButtons.forEach(button => {
+
+    button.addEventListener("click", async () => {
+
+        const candidateId =
+            button.dataset.candidateId;
+
+        const electionId =
+            "<%= election.id %>";
+
+        try {
+
+            const response = await fetch(
+                `/voting/${electionId}/vote`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        candidateId: candidateId
+                    })
+                }
+            );
+            const result = await response.json();
+
+if (result.success) {
+    
+    const successPopup =
+        document.getElementById("successPopup");
+
+    successPopup.style.display = "flex";
+
+    // Beep sound
+    const beep = new Audio(
+        "/sounds/beep.mp3"
+    );
+
+    beep.play();
+
+    // Wait 5 seconds
+    setTimeout(() => {
+
+        successPopup.style.display = "none";
+
+    }, 7000);
+}
+            
+        } catch (error) {
+
+            console.error(
+                "Voting request failed:",
+                error
+            );
+
+        }
+
+    });
+
+});
+const resultsButton =
+    document.querySelector(".results-button");
+
+resultsButton.addEventListener("click", () => {
+
+    const electionId =
+        "<%= election.id %>";
+
+    window.location.href =
+        `/results/${electionId}`;
+
+});
+</script>
+<div id="successPopup" class="success-popup">
+    <div class="success-popup-content">
+        <div class="success-icon">✓</div>
+        <h2>Successfully Voted!</h2>
+        <p>Your vote has been recorded.</p>
+    </div>
+</div>
+</body>
+
+</html>

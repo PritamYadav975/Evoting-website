@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election Setup</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/setup.css">
+</head>
+
+<body>
+    <div class="setup-page">
+        <header class="organization-header">
+            <img class="organization-mark" src="/images/election-logo.png" alt="Election commission logo">
+            <div>
+                <p class="organization-label">Election administration</p>
+                <h1><%= organization.name %></h1>
+                <p class="organization-account">Signed in as <strong><%= organization.username %></strong></p>
+            </div>
+        </header>
+
+        <main class="setup-main">
+            <div class="page-intro">
+                <p class="eyebrow">Create a new election</p>
+                <h2>Election setup</h2>
+                <p>Add the election details, parties, and candidates. You can review everything before starting.</p>
+            </div>
+
+            <form class="form-field" action="/elections/create" method="POST" enctype="multipart/form-data">
+                <section class="form-section">
+                    <div class="section-heading">
+                        <span class="section-number">01</span>
+                        <div>
+                            <h3>Election details</h3>
+                            <p>Set the name, type, and voting period.</p>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label" for="name">Election name</label>
+                            <input class="form-control" required type="text" id="name" name="name" placeholder="e.g. 2026 Student Council Election">
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label class="form-label" for="category">Election type</label>
+                            <select class="form-select" id="category" name="category" required>
+                                <option value="">Select election type</option>
+                                <option value="LOCAL">Local</option>
+                                <option value="MUNICIPAL">Municipal</option>
+                                <option value="PROVINCIAL">Provincial</option>
+                                <option value="NATIONAL">National</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label class="form-label" for="startTime">Start date &amp; time</label>
+                            <input class="form-control" required type="datetime-local" id="startTime" name="startTime">
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label class="form-label" for="endTime">End date &amp; time</label>
+                            <input class="form-control" required type="datetime-local" id="endTime" name="endTime">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="form-section">
+                    <div class="section-heading">
+                        <span class="section-number">02</span>
+                        <div>
+                            <h3>Parties</h3>
+                            <p>Add each party and upload its symbol.</p>
+                        </div>
+                    </div>
+
+                    <div id="partiesContainer" class="entry-list">
+                        <div class="party entry-card">
+                            <h4>Party 1</h4>
+                            <label class="form-label">Party name</label>
+                            <input required type="text" name="partyName[]" placeholder="Enter party name" class="form-control">
+
+                            <label class="form-label">Party symbol</label>
+                            <input required type="file" name="partySymbol[]" accept="image/*" class="form-control">
+                        </div>
+                    </div>
+
+                    <button type="button" id="addParty" class="btn btn-outline-primary add-entry-button">
+                        <span aria-hidden="true">+</span> Add another party
+                    </button>
+                </section>
+
+                <section class="form-section">
+                    <div class="section-heading">
+                        <span class="section-number">03</span>
+                        <div>
+                            <h3>Candidates</h3>
+                            <p>Enter candidate details and assign each one to a party.</p>
+                        </div>
+                    </div>
+
+                    <div id="candidatesContainer" class="entry-list">
+                        <div class="candidate entry-card">
+                            <h4>Candidate 1</h4>
+                            <label class="form-label">Candidate name</label>
+                            <input required type="text" name="candidateName[]" placeholder="Enter candidate name" class="form-control">
+
+                            <label class="form-label">Candidate photo</label>
+                            <input required type="file" name="candidateImage[]" accept="image/*" class="form-control">
+
+                            <label class="form-label">Party</label>
+                            <select required name="candidateParty[]" class="form-select">
+                                <option value="">Select party</option>
+                                <option value="INDEPENDENT">Independent</option>
+                            </select>
+
+                            <label class="form-label">Position</label>
+                            <input required type="text" name="candidatePosition[]" placeholder="Enter position" class="form-control">
+
+                            <label class="form-label">Constituency</label>
+                            <input required type="text" name="candidateConstituency[]" placeholder="Enter constituency" class="form-control">
+                        </div>
+                    </div>
+
+                    <button type="button" id="addCandidate" class="btn btn-outline-primary add-entry-button">
+                        <span aria-hidden="true">+</span> Add another candidate
+                    </button>
+                </section>
+
+                <div class="form-actions">
+                    <p>Your election will be reviewed before it starts.</p>
+                    <button type="submit" class="btn btn-primary submit-button">Review election</button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script src="/js/setup.js"></script>
+</body>
+</html>

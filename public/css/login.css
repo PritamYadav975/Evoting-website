@@ -1,0 +1,52 @@
+body {
+    min-height: 100vh;
+}
+
+.login-page {
+    position: relative;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 2rem 7%;
+    overflow: hidden;
+}
+
+.background-design {
+    position: absolute;
+    inset: 0;
+    background-image: url("/images/login.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.login-card {
+    z-index: 1;
+    width: 100%;
+    max-width: 18rem;
+
+    
+
+
+}
+
+@media (max-width: 750px) {
+    .login-page {
+        justify-content: center;
+        padding: 1.5rem;
+    }
+    .login-card {
+    z-index: 1;
+    width: 100%;
+    max-width: 18rem;
+    margin-top: 7;
+
+}
+
+    .background-design {
+        background-size: auto 100%;
+        background-position: left center;
+        opacity: 0.35;
+    }
+}
